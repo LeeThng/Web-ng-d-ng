@@ -1,0 +1,129 @@
+<%- include('partials/header') %>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>Giải Pháp Vật Liệu Nha Khoa <br><span>Toàn Diện & Tin Cậy</span></h1>
+        <p>Cung cấp trang thiết bị và vật tư chính hãng cho các phòng khám hàng đầu Việt Nam.</p>
+        <a href="/products" class="btn-primary">Khám phá ngay</a>
+    </div>
+</section>
+
+<section class="container categories">
+    <h2 class="section-title">Danh mục vật tư chuyên dụng</h2>
+    <div class="category-grid">
+    <a href="/products?category=1" style="text-decoration: none; color: inherit;">
+        <div class="category-card">
+            <div class="category-icon"><i class="fas fa-fill-drip"></i></div>
+            <h3>Vật liệu trám</h3>
+            <p>Composite, GIC, Amalgam chính hãng</p>
+        </div>
+    </a>
+
+    <a href="/products?category=2" style="text-decoration: none; color: inherit;">
+        <div class="category-card">
+            <div class="category-icon"><i class="fas fa-microscope"></i></div>
+            <h3>Thiết bị nội nha</h3>
+            <p>Máy định vị chóp, trâm máy, tay khoan</p>
+        </div>
+    </a>
+
+    </div>
+</section>
+
+<% if (flashSaleProducts && flashSaleProducts.length > 0) { %>
+<section class="flash-sale-container container" style="margin-top: 20px;">
+    <div class="flash-sale-header" style="background: linear-gradient(90deg, var(--primary), var(--secondary)); color: white; padding: 15px; border-radius: 10px 10px 0 0; display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-size: 22px; font-weight: bold;"><i class="fas fa-bolt"></i> FLASH SALE GIỜ VÀNG</div>
+        <div id="countdown" style="font-weight: bold; background: rgba(0,0,0,0.2); padding: 5px 15px; border-radius: 20px;">
+            Kết thúc sau: <span id="timer">05:00:00</span>
+        </div>
+    </div>
+    
+    <div class="product-grid" style="border: 2px solid var(--secondary); border-top: none; padding: 20px; border-radius: 0 0 10px 10px; background: #fff;">
+        <% flashSaleProducts.forEach(function(item) { %>
+            <div class="product-card" style="position: relative;">
+                <div class="discount-badge" style="position: absolute; top: 10px; left: 10px; background: var(--secondary); color: white; padding: 5px 10px; border-radius: 5px; z-index: 1; font-weight: bold;">
+                    -<%= Math.round((1 - item.price / item.old_price) * 100) %>%
+                </div>
+                <div class="product-img"><img src="/images/<%= item.main_image %>"></div>
+                <div class="product-info">
+                    <h3><%= item.name %></h3>
+                    <div class="flash-price">
+                        <span class="sale-price" style="color: var(--primary); font-weight: bold; font-size: 1.2rem;"><%= item.price.toLocaleString() %> đ</span>
+                        <br>
+                        <span class="old-price-text" style="text-decoration: line-through; color: #999; font-size: 0.9rem;"><%= item.old_price.toLocaleString() %> đ</span>
+                    </div>
+                    
+                    <div class="stock-status" style="margin-top: 10px;">
+                        <div class="stock-bar" style="background: #eee; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 5px;">
+                            <div class="stock-progress" style="width: 75%; height: 100%; background: var(--secondary);"></div>
+                        </div>
+                        <span style="font-size: 11px; color: var(--secondary); font-weight: bold;">Đang cháy hàng</span>
+                    </div>
+
+                    <div class="product-actions">
+                        <a href="/products/<%= item.id %>" class="btn-detail">Chi tiết</a>
+                        <button class="btn-buy" style="background: var(--secondary); border-color: var(--secondary);">Săn ngay</button>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</section>
+<% } %>
+
+<hr style="border: 0; height: 1px; background: #eee; margin: 50px 0;">
+
+<section class="container featured-products">
+    <div class="section-header" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px;">
+        <div>
+            <h2 style="margin-bottom: 10px; border-left: 5px solid var(--primary); padding-left: 15px;">Sản phẩm nổi bật</h2>
+            <p style="color: #666;">Trang thiết bị nha khoa tiên tiến, độ bền cao.</p>
+        </div>
+        <a href="/products" style="color: var(--primary); font-weight: bold; text-decoration: none;">Xem tất cả <i class="fas fa-arrow-right"></i></a>
+    </div>
+
+    <div class="product-grid">
+        <% if (featuredProducts && featuredProducts.length > 0) { %>
+            <% featuredProducts.forEach(function(item) { %>
+                <div class="product-card">
+                    <div class="product-img"><img src="/images/<%= item.main_image %>"></div>
+                    <div class="product-info">
+                        <h3><%= item.name %></h3>
+                        <p class="price" style="color: var(--primary); font-weight: bold;"><%= item.price.toLocaleString() %> đ</p>
+                        <div class="product-actions">
+                            <a href="/products/<%= item.id %>" class="btn-detail">Chi tiết</a>
+                            <button class="btn-buy">Mua ngay</button>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        <% } %>
+    </div>
+</section>
+
+<script>
+    function startTimer(duration, display) {
+        var timer = duration, hours, minutes, seconds;
+        setInterval(function () {
+            hours = parseInt(timer / 3600, 10);
+            minutes = parseInt((timer % 3600) / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            hours = hours < 10 ? "0" + hours : hours;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = hours + ":" + minutes + ":" + seconds;
+
+            if (--timer < 0) { timer = duration; }
+        }, 1000);
+    }
+    window.onload = function () {
+        var fiveHours = 60 * 60 * 5,
+            display = document.querySelector('#timer');
+        if(display) startTimer(fiveHours, display);
+    };
+</script>
+
+<%- include('partials/footer') %>

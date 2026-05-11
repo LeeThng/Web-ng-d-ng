@@ -1,0 +1,62 @@
+<%- include('partials/header') %>
+
+<div class="breadcrumb container">
+    <a href="/">Trang chủ</a> &raquo; <span>Sản phẩm</span>
+</div>
+
+<section class="shop-layout container" style="margin-top: 20px; margin-bottom: 50px;">
+    
+    <aside class="sidebar">
+        <div class="filter-group">
+            <h3>Danh mục</h3>
+            <ul class="filter-list">
+                <li><a href="#" class="active">Tất cả sản phẩm</a></li>
+                <li><a href="#">Vật liệu trám</a></li>
+                <li><a href="#">Thiết bị nội nha</a></li>
+                <li><a href="#">Dụng cụ phẫu thuật</a></li>
+                <li><a href="#">Chỉnh nha</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <main class="shop-main">
+        <div class="shop-toolbar" style="margin-bottom: 20px;">
+            <h2 style="font-size: 20px; color: var(--primary);">Tất cả sản phẩm nha khoa</h2>
+        </div>
+
+        <div class="product-grid">
+            <% if (data && data.length > 0) { %>
+                <% data.forEach(function(item) { %>
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="/images/<%= item.main_image %>" onerror="this.src='https://via.placeholder.com/250x250?text=Chưa+có+ảnh'" alt="<%= item.name %>">
+                        </div>
+                        <div class="product-info">
+                            <h3><%= item.name %></h3>
+                            <p style="font-size: 13px; color: #7f8c8d; margin-bottom: 10px;">
+                                <i class="fas fa-tag"></i> <%= item.category_name %>
+                            </p>
+                            
+                            <p class="price">
+                                <%= item.price.toLocaleString('vi-VN') %> đ
+                                <% if(item.old_price) { %>
+                                    <span style="text-decoration: line-through; color: #999; font-size: 14px; margin-left: 8px;">
+                                        <%= item.old_price.toLocaleString('vi-VN') %> đ
+                                    </span>
+                                <% } %>
+                            </p>
+                            
+                            <a href="/products/<%= item.id %>" class="btn-buy-now">
+                                Xem chi tiết
+                            </a>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>Hiện chưa có sản phẩm nào trong kho.</p>
+            <% } %>
+        </div>
+    </main>
+</section>
+
+<%- include('partials/footer') %>

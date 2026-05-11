@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DentalShop - Vật Liệu Nha Khoa Chuyên Nghiệp</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            
+            <div class="logo">DENTAL<span>SHOP</span></div>
+            
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="/">Trang chủ</a></li>
+                    <li><a href="/products">Sản phẩm</a></li>
+                    <li><a href="/about">Giới thiệu</a></li>
+                    <li><a href="/contact">Liên hệ</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-search">
+                <form action="/products/search" method="GET">
+                    <input type="text" name="q" placeholder="Tìm vật liệu, thiết bị...">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+            
+            <div class="header-actions" style="display: flex; align-items: center; gap: 20px;">
+    
+                <div class="cart-wrapper" style="margin-right: 5px;">
+                    <a href="/cart" style="color: inherit; text-decoration: none;">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count"><%= cartCount %></span>
+                    </a>
+                </div>
+
+                <% if (user) { %>
+                    <div class="user-dropdown">
+                        <a href="#" class="user-profile" style="text-decoration: none;">
+                            <i class="fas fa-user-circle"></i> <%= user.full_name %> 
+                            <i class="fas fa-chevron-down" style="font-size: 12px; margin-left: 5px;"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/account/edit"><i class="fas fa-user-edit"></i> Tài khoản của tôi</a></li>
+                            <li><a href="#"><i class="fas fa-clipboard-list"></i> Đơn mua</a></li>
+                            <li><hr style="border: 0; border-top: 1px solid #eee; margin: 5px 0;"></li>
+                            <li><a href="/logout" style="color: #e74c3c;"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                <% } else { %>
+                    <a href="/login" style="background: var(--primary); color: white; padding: 8px 18px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 14px;">
+                        <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                    </a>
+                <% } %>
+
+            </div>
+        </div>
+    </header>

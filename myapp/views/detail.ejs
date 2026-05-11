@@ -1,0 +1,88 @@
+<%- include('partials/header') %>
+
+<div class="breadcrumb container">
+    <a href="/">Trang chủ</a> &raquo; <a href="/products">Sản phẩm</a> &raquo; <span><%= product.name %></span>
+</div>
+
+<section class="detail-container container">
+    <div class="product-gallery">
+        <div class="main-image">
+            <img src="/images/<%= product.main_image %>" onerror="this.src='https://via.placeholder.com/500x500?text=Chưa+có+ảnh'" alt="<%= product.name %>">
+        </div>
+        <div class="thumbnail-list">
+            <img src="/images/<%= product.main_image %>" alt="Thumb Chính" class="active-thumb">
+            <% if(product.images && product.images.length > 0) { %>
+                <% product.images.forEach(function(img) { %>
+                    <img src="/images/<%= img.image_url %>" onerror="this.src='https://via.placeholder.com/100x100'" alt="Thumb">
+                <% }); %>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="product-summary">
+        <h1 class="product-title"><%= product.name %></h1>
+        
+        <div class="product-meta">
+            <span><i class="fas fa-tag"></i> Thương hiệu: <strong><%= product.brand %></strong></span>
+            <span><i class="fas fa-box"></i> Tình trạng: <strong style="color: #28a745;">Còn hàng (<%= product.stock %>)</strong></span>
+        </div>
+
+        <div class="product-price-box">
+            <p class="price-detail"><%= product.price.toLocaleString('vi-VN') %> đ</p>
+            <% if(product.old_price) { %>
+                <p class="old-price"><%= product.old_price.toLocaleString('vi-VN') %> đ</p>
+            <% } %>
+        </div>
+
+        <p class="short-desc">
+            <%= product.short_desc %>
+        </p>
+
+        <div class="action-buttons">
+            <button class="btn-add-cart-large"><i class="fas fa-cart-plus"></i> Thêm vào giỏ</button>
+            <button class="btn-buy-now"><i class="fas fa-check-circle"></i> Mua ngay</button>
+        </div>
+    </div>
+</section>
+
+<section class="description-section container" style="margin-bottom: 50px;">
+    <div class="desc-tabs">
+        <button class="tab-btn active" data-target="mota">Mô tả chi tiết</button>
+        <button class="tab-btn" data-target="thongso">Thông số kỹ thuật</button>
+    </div>
+    
+    <div id="mota" class="desc-content" style="display: block;">
+        <p><%= product.detail_desc %></p>
+    </div>
+
+    <div id="thongso" class="desc-content" style="display: none;">
+        <p><%= product.specs %></p>
+    </div>
+</section>
+
+<%- include('partials/footer') %>
+
+<script>
+    const mainImage = document.querySelector('.main-image img');
+    const thumbnails = document.querySelectorAll('.thumbnail-list img');
+
+    thumbnails.forEach(thumb => {
+        thumb.addEventListener('click', function() {
+            mainImage.src = this.src;
+            thumbnails.forEach(t => t.classList.remove('active-thumb'));
+            this.classList.add('active-thumb');
+        });
+    });
+
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.desc-content');
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(content => content.style.display = 'none');
+            this.classList.add('active');
+            document.getElementById(this.getAttribute('data-target')).style.display = 'block';
+        });
+    });
+</script>
